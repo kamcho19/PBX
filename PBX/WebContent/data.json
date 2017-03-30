@@ -1,0 +1,19 @@
+{
+    "api": [
+    {
+      "name": "Test1",
+      "url": "http://earth.pchero21.com:8081/ob/plans",
+      "method":"GET"
+    },
+    {
+      "name": "Test2",
+      "url": "http://earth.pchero21.com:8081/ob/plans",
+      "method":"GET"
+    },
+    {
+      "name": "Test3",
+      "url": "http://earth.pchero21.com:8081/ob/plans",
+      "method":"GET"
+    }
+  ]
+}
