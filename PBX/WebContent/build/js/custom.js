@@ -44,10 +44,12 @@ var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
     $MENU_TOGGLE = $('#menu_toggle'),
     $SIDEBAR_MENU = $('#sidebar-menu'),
     $SIDEBAR_FOOTER = $('.sidebar-footer'),
+    //$SIDEBAR_FOOTER = 0,
     $LEFT_COL = $('.left_col'),
     $RIGHT_COL = $('.right_col'),
     $NAV_MENU = $('.nav_menu'),
     $FOOTER = $('footer');
+    //$FOOTER = 0;
 
 	
 	

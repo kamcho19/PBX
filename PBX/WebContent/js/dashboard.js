@@ -1,3 +1,4 @@
+var api_arr;
 
 function init_nav(){
   // $SIDEBAR_MENU.find('a').on('click', function(ev) {
@@ -48,6 +49,7 @@ function init_nav(){
     			// alert('success');
     			console.log('success');
     			console.log(e);
+    			
     		},
     		complete:function(){
     			// alert('complete');
@@ -57,24 +59,39 @@ function init_nav(){
     	});
     });	
     
-    $('#setting').on('click', function(e){
-    	console.log("########setting");
-    	$.ajax({
-    		url:'./data.json',
-    		type:'GET',
-    		
-    	});
-    	
-    	
-    });
+
+}
+function load_api(){
+	$.ajax({
+		url:'./data.json',
+		type:'GET',
+		dataType:'json',    		
+		error:function(data){
+			console.log('==ERROR_API_SETTING==');
+		},
+		success:function(data){
+			console.log('==SUCCESS_API_SETTING==');
+			console.log(data);
+			api_arr = data.api;    			
+		},
+		complete:function(data){
+			console.log('==COMPLETE_API_SETTING==');
+		}    		
+	});	
 }
 
-
+function init_setting(){
+    $('#setting').on('click', function(e){
+    	console.log("=========API_SETTING========");
+    	load_api();
+    });
+}
 
 
 $(document).ready(function() {
 		console.log('dashboard');		
 		init_nav();
+		init_setting();
 		/*init_flot_chart();
 		init_sidebar();
 		init_wysiwyg();
