@@ -1,81 +1,65 @@
-var api_arr;
+var api_data;
 
 function init_nav(){
-  // $SIDEBAR_MENU.find('a').on('click', function(ev) {
-	  // console.log('dashboard_sidebar');
-/*        var $li = $(this).parent();
-
-        if ($li.is('.active')) {
-            $li.removeClass('active active-sm');
-            $('ul:first', $li).slideUp(function() {
-                setContentHeight();
-            });
-        } else {
-            // prevent closing menu if we are on child menu
-            if (!$li.parent().is('.child_menu')) {
-                $SIDEBAR_MENU.find('li').removeClass('active active-sm');
-                $SIDEBAR_MENU.find('li ul').slideUp();
-            }else
-            {
-				if ( $BODY.is( ".nav-sm" ) )
-				{
-					$SIDEBAR_MENU.find( "li" ).removeClass( "active active-sm" );
-					$SIDEBAR_MENU.find( "li ul" ).slideUp();
-				}
+	var html_txt ="No data";
+	if(api_data.length>0){
+		html_txt=""
+		for(var i=0; i<api_data.length; i++ ){			
+			html_txt=html_txt.concat('<li><a><i class="fa"></i>', 
+									api_data[i].name, 
+									'<span class="fa fa-chevron-down"></span></a></li>' );
+/*    		html_txt=html_txt.concat(api_data[i].name);
+			html_txt=html_txt.concat('<span class="fa fa-chevron-down"></span></a></li>');*/
+		}		
+	}
+	$("#left_navi").html(html_txt);
+	
+	$("#left_navi").find('a').on('click', function(ev){
+		var idx =$(this.parentElement).index();
+		var obj = api_data[idx];
+		var data =obj.param[0];
+		if(obj.method=="POST"||obj.method=="PUT"){
+			data =JSON.stringify(obj.param[0]);
+		}
+	
+		$.ajax({
+			url:obj.url,
+			method:obj.method,
+			contentType:"application/x-www-form-urlencoded; charset=UTF-8", //application/json charset=UTF-8 application/x-www-form-urlencoded, multipart/form-data, text/plain
+			data:data,
+			dataType:'json',
+			success:function(data){
+				console.log("==SUCCESS==");
+				console.log(data);
+				$("#response").html(JSON.stringify(data));
+			},
+			error:function(data){
+				console.log("==ERROR==");
+			},
+			complete:function(data){
+				console.log("==COMPLETE==");
 			}
-            $li.addClass('active');
-
-            $('ul:first', $li).slideDown(function() {
-                setContentHeight();
-            });
-        }*/
-    // });
-    $('#btn').on('click', function(e){
-    	console.log("##########btn");
-    	$.ajax({
-    		//crossDomain:true,
-    		url:'http://earth.pchero21.com:8081/ob/plans',
-    		type:'GET',
-    		dataType:'json',
-    		//contentType: "application/x-www-form-urlencoded",
-
-    		// xml,html,json,jsonp,script,text
-    		error:function(){
-    			// alert('Error');
-    			console.log('Error');
-
-    		},
-    		success:function(e){
-    			// alert('success');
-    			console.log('success');
-    			console.log(e);
-    			
-    		},
-    		complete:function(){
-    			// alert('complete');
-    			console.log('complete');
-    		}
-
-    	});
-    });	
-    
+				
+		})
+	})
 
 }
 function load_api(){
 	$.ajax({
 		url:'./data.json',
 		type:'GET',
-		dataType:'json',    		
-		error:function(data){
-			console.log('==ERROR_API_SETTING==');
-		},
+		dataType:'json',
 		success:function(data){
 			console.log('==SUCCESS_API_SETTING==');
 			console.log(data);
-			api_arr = data.api;    			
+			api_data = data.api;    			
 		},
+		error:function(data){
+			console.log('==ERROR_API_SETTING==');
+		},		
 		complete:function(data){
 			console.log('==COMPLETE_API_SETTING==');
+			init_nav();
 		}    		
 	});	
 }
@@ -83,14 +67,21 @@ function load_api(){
 function init_setting(){
     $('#setting').on('click', function(e){
     	console.log("=========API_SETTING========");
+    	reset();
     	load_api();
     });
 }
 
+function reset(){
+	$("#left_navi").html("");
+	$("#response").html("");
+}
+
 
 $(document).ready(function() {
-		console.log('dashboard');		
-		init_nav();
+		console.log('dashboard');
+		load_api();
+		//init_nav();
 		init_setting();
 		/*init_flot_chart();
 		init_sidebar();

@@ -1,19 +1,27 @@
 {
     "api": [
     {
-      "name": "Test1",
+      "name": "GET",
       "url": "http://earth.pchero21.com:8081/ob/plans",
-      "method":"GET"
+      "method":"GET",
+      "param":[{"param1":"aa","param2":"2"}]
     },
     {
-      "name": "Test2",
+      "name": "POST",
       "url": "http://earth.pchero21.com:8081/ob/plans",
-      "method":"GET"
+      "method":"POST",
+      "param":[{"name": "Test plan create", "variables": {"plan_key_1": "plean_val_1"}}]
     },
     {
-      "name": "Test3",
-      "url": "http://earth.pchero21.com:8081/ob/plans",
-      "method":"GET"
+      "name": "PUT",
+      "url": "http://earth.pchero21.com:8081/ob/plans/5c1f87bd-ff4a-46fe-bd3d-c40e8076ca66",
+      "method":"PUT",
+      "param":[{"name": "Jade"}]
+    },
+    {
+      "name": "DELETE",
+      "url": "http://earth.pchero21.com:8081/ob/plans/010197a8-083f-474c-8c90-4db3a6456500",
+      "method":"DELETE"
     }
   ]
 }
