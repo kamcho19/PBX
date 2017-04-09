@@ -15,19 +15,31 @@ function init_nav(){
 	$("#left_navi").html(html_txt);
 	
 	$("#left_navi").find('a').on('click', function(ev){
+		$("#response").html("");
 		var idx =$(this.parentElement).index();
+
 		var obj = api_data[idx];
+		var url=obj.url;
+		var method=obj.method;	
 		var data =obj.param[0];
+		var content_type ="application/x-www-form-urlencoded; charset=UTF-8"
+		if(obj.method=="PUT"||obj.method=="DELETE"){
+			content_type="application/json; charset=UTF-8";
+		}
+			
 		if(obj.method=="POST"||obj.method=="PUT"){
 			data =JSON.stringify(obj.param[0]);
 		}
 	
 		$.ajax({
-			url:obj.url,
-			method:obj.method,
-			contentType:"application/x-www-form-urlencoded; charset=UTF-8", //application/json charset=UTF-8 application/x-www-form-urlencoded, multipart/form-data, text/plain
+			url:url,
+			method:method,
+			contentType:content_type, //application/json charset=UTF-8 application/x-www-form-urlencoded, multipart/form-data, text/plain
 			data:data,
 			dataType:'json',
+			/*crossDomain:false,*/
+			//headers:{_method : 'PUT'},
+			//headers: {"Content-Type":"application/json"},
 			success:function(data){
 				console.log("==SUCCESS==");
 				console.log(data);
@@ -60,6 +72,7 @@ function load_api(){
 		complete:function(data){
 			console.log('==COMPLETE_API_SETTING==');
 			init_nav();
+			$("#request").html(JSON.stringify(api_data));
 		}    		
 	});	
 }
@@ -68,8 +81,17 @@ function init_setting(){
     $('#setting').on('click', function(e){
     	console.log("=========API_SETTING========");
     	reset();
-    	load_api();
+    	//load_api();
+    	change_api();
+    	
     });
+}
+
+function change_api(){
+	var temp = $("#request").val();	
+	api_data = JSON.parse(temp);
+	init_nav();
+	
 }
 
 function reset(){
